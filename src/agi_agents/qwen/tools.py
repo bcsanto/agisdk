@@ -81,7 +81,9 @@ class QwenToolExecutor:
     async def _execute_click(self, tool_input: Dict[str, Any]) -> str:
         point = tool_input["point_2d"]
         x, y = self.scale_coordinates(point[0], point[1])
+        await self.page.wait_for_timeout(100)  # Ensure element is ready
         await self.page.mouse.click(x, y)
+        await self.page.wait_for_timeout(300)  # Wait for click to register
         return f"Clicked at ({point[0]}, {point[1]})"
 
     async def _execute_double_click(self, tool_input: Dict[str, Any]) -> str:
