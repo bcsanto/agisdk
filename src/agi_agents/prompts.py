@@ -35,8 +35,12 @@ I see a login button that I need to click.
 click({{"point_2d": [920, 50]}})
 
 Example with navigation:
-I need to access the Newsletters section to complete this task. Currently I'm on a profile page. I can see a "Newsletters" link in the left sidebar that will take me there.
+I need to access the Newsletters section to complete this task. Currently I'm on the home page. I can see a left sidebar with options like "Saved items", "Groups", "Newsletters", and "Events". I need to click on "Newsletters".
 click({{"point_2d": [150, 400]}})
+
+Example with top navigation:
+The task requires accessing settings. I see a top navigation bar with tabs: "Home", "My Network", "Jobs", "Messaging". My Network might have the Newsletters section. Let me click "My Network".
+click({{"point_2d": [872, 75]}})
 
 ## Important Notes
 - Date: Today is {date}

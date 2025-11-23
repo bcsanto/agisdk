@@ -309,6 +309,11 @@ Use the select_dropdown tool to select an option from the dropdown. Use the exac
 Available dropdown options: {dropdown_options}"""
                 result_parts.append(dropdown_message)
 
+            # Add URL context to help agent understand where it is
+            current_url = browser.page.url
+            url_feedback = f"\n\nCurrent URL: {current_url}"
+            result_parts.append(url_feedback)
+
             # Save result as simple user message
             state.messages.append({"role": "user", "content": "\n".join(result_parts)})
 
