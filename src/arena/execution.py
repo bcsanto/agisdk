@@ -21,7 +21,7 @@ class TaskExecution:
         agent: "BaseAgent",
         browser: "AgentBrowser",
         max_steps: int = 60,
-        step_timeout: int = 3000,
+        step_timeout: int = 180,
         task_execution_id: Optional[int] = None,
         ignore_errors: bool = False,
     ):
