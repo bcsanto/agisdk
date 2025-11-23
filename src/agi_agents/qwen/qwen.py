@@ -38,7 +38,6 @@ class QwenAgent(BaseAgent):
 
     def __init__(
         self,
-        # model: str = "qwen3-vl-plus",
         model: str = "qwen/qwen3-vl-235b-a22b-instruct",
         date_mode: str = "current",
         base_url: str | None = None,
@@ -112,7 +111,7 @@ class QwenAgent(BaseAgent):
         if self.date_mode == "current":
             pacific_tz = pytz.timezone("US/Pacific")
             current_date = datetime.datetime.now(pacific_tz).strftime("%Y-%m-%d")
-            current_date = f"y-m-d: {current_date}"
+            current_date = f"Current date (YYYY-MM-DD): {current_date}"
         else:
             current_date = "Year 2024"
 
@@ -213,12 +212,6 @@ class QwenAgent(BaseAgent):
         image = Image.open(io.BytesIO(screenshot))
         original_width, original_height = image.width, image.height
 
-        # Ensure first turn includes task goal before image
-        if not state.messages:
-            state.messages.append(
-                {"role": "user", "content": f"## Task Goal\n{state.goal}"}
-            )
-
         # Append current screenshot message to state to interleave with dialogue
 
         data_url = self._screenshot_to_data_url(screenshot)
@@ -243,7 +236,7 @@ class QwenAgent(BaseAgent):
         # Call API with retry logic
         max_retries = 100
         response = None
-        for attempt in range(max_retries + 1):
+        for attempt in range(max_retries):
             try:
                 response = await self.client.chat.completions.create(
                     model=self.model,
@@ -253,7 +246,7 @@ class QwenAgent(BaseAgent):
                 )
                 break
             except Exception as e:
-                if attempt == max_retries:
+                if attempt == max_retries - 1:
                     raise e
                 await asyncio.sleep(1.0)
         if response is None:

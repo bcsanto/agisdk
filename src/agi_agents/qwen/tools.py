@@ -71,6 +71,8 @@ class QwenToolExecutor:
             return await self._execute_scroll(tool_input)
         elif tool_name == "goto":
             return await self._execute_goto(tool_input)
+        elif tool_name == "select_dropdown":
+            return await self._execute_select_dropdown(tool_input)
         elif tool_name == "finished":
             return await self._execute_finished(tool_input)
         else:
@@ -133,11 +135,11 @@ class QwenToolExecutor:
         direction = tool_input["direction"]
         pixels = tool_input.get("pixels", 300)
 
-        # If point_2d provided, scroll at that position
+        # Determine scroll position
         if "point_2d" in tool_input:
             point = tool_input["point_2d"]
-            x, y = self.scale_coordinates(point[0], point[1])
-            await self.page.mouse.move(x, y)
+            scroll_x, scroll_y = self.scale_coordinates(point[0], point[1])
+            await self.page.mouse.move(scroll_x, scroll_y)
         else:
             viewport_size = await self.page.evaluate(
                 "({width: window.innerWidth, height: window.innerHeight})"
@@ -171,6 +173,19 @@ class QwenToolExecutor:
         url = tool_input["url"].strip()
         await self.page.goto(url)
         return f"Navigated to: {url}"
+
+    async def _execute_select_dropdown(self, tool_input: Dict[str, Any]) -> str:
+        value = tool_input["value"]
+        # Find the expanded select element
+        sel = await self._get_expanded_select()
+        if not sel:
+            return "No dropdown is currently open"
+
+        try:
+            await sel.select_option(value)
+            return f"Selected dropdown option: {value}"
+        except Exception as e:
+            return f"Failed to select dropdown option '{value}': {str(e)}"
 
     async def _execute_finished(self, tool_input: Dict[str, Any]) -> str:
         content = tool_input["content"]
