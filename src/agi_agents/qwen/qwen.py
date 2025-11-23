@@ -39,7 +39,7 @@ class QwenAgent(BaseAgent):
     def __init__(
         self,
         # model: str = "qwen3-vl-plus",
-        model: str = "qwen/qwen3-vl-235b-a22b-thinking",
+        model: str = "qwen/qwen3-vl-235b-a22b-instruct",
         date_mode: str = "current",
         base_url: str | None = None,
         api_key: str | None = None,
