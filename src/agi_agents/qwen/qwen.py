@@ -122,10 +122,16 @@ class QwenAgent(BaseAgent):
 
         # If no messages yet, create first user message with goal
         if not state.messages:
+            # Add explicit navigation instruction for tasks that mention sections
+            navigation_hint = ""
+            navigation_keywords = ["Look through", "Go to", "Navigate to", "Access", "Visit", "Open"]
+            if any(keyword in state.goal for keyword in navigation_keywords):
+                navigation_hint = "\n\n**IMPORTANT**: This task requires navigating to a specific section. Look for navigation links in sidebars (usually on the left) or top navigation bars. Click the appropriate link to navigate before attempting other actions."
+
             state.messages.append(
                 {
                     "role": "user",
-                    "content": f"## Task Goal\n{state.goal}",
+                    "content": f"## Task Goal\n{state.goal}{navigation_hint}",
                 }
             )
 

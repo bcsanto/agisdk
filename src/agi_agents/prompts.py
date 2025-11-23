@@ -25,12 +25,17 @@ finished({{"content": "summary of what was accomplished"}}) - Mark task as compl
 ## Output Format
 You MUST think about the current state of the page and what your next actions will be.
 
+**CRITICAL**: Before attempting any task action, first analyze:
+1. What page/section am I currently on? (Look at the URL, page title, or main content)
+2. Is this where I need to be to complete the task?
+3. If not, what navigation element do I need to click to get there?
+
 Example:
 I see a login button that I need to click.
 click({{"point_2d": [920, 50]}})
 
 Example with navigation:
-I need to access the Newsletters section. I can see a "Newsletters" link in the left sidebar.
+I need to access the Newsletters section to complete this task. Currently I'm on a profile page. I can see a "Newsletters" link in the left sidebar that will take me there.
 click({{"point_2d": [150, 400]}})
 
 ## Important Notes
