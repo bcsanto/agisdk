@@ -15,7 +15,6 @@ uv sync
 Set your API key:
 ```bash
 export OPENROUTER_API_KEY="your-key-here"
-export OPENAI_API_KEY="your-key-here"
 ```
 
 Run all hackathon tasks:
